@@ -98,7 +98,7 @@ Berikut **penjelasan kode dari project Flutter yang kamu kirim**. Penjelasan ini
 
 # :gear: Penjelasan Kode
 
-# 1️⃣ main.dart
+## 1️⃣ main.dart
 
 File `main.dart` merupakan **entry point** dari aplikasi Flutter.
 
@@ -198,7 +198,7 @@ Navigasi halaman menggunakan **Named Routes**:
 
 ---
 
-# 2️⃣ registration_page.dart (Halaman Registrasi)
+## 2️⃣ registration_page.dart (Halaman Registrasi)
 
 Halaman ini digunakan untuk **mendaftarkan peserta baru**.
 
@@ -212,7 +212,7 @@ karena form memiliki **state yang berubah**.
 
 ---
 
-## Form Controller
+### Form Controller
 
 ```dart
 final TextEditingController _name = TextEditingController();
@@ -223,7 +223,7 @@ Digunakan untuk **mengambil input dari TextFormField**.
 
 ---
 
-## GlobalKey Form
+### GlobalKey Form
 
 ```dart
 final _formKey = GlobalKey<FormState>();
@@ -237,7 +237,7 @@ Digunakan untuk melakukan **validasi form**.
 
 Form memiliki beberapa input:
 
-### Nama
+#### Nama
 
 ```dart
 TextFormField
@@ -252,7 +252,7 @@ Validasi:
 
 ---
 
-### Email
+#### Email
 
 Validasi:
 
@@ -263,7 +263,7 @@ Validasi:
 
 ---
 
-### Gender
+#### Gender
 
 Menggunakan:
 
@@ -280,7 +280,7 @@ Perempuan
 
 ---
 
-### Program Studi
+#### Program Studi
 
 Menggunakan:
 
@@ -298,7 +298,7 @@ Pilihan program studi:
 
 ---
 
-## Tombol Daftar
+### Tombol Daftar
 
 ```dart
 ElevatedButton.icon
@@ -329,7 +329,7 @@ SnackBar(
 
 ---
 
-## Reset Form
+### Reset Form
 
 ```dart
 OutlinedButton
@@ -343,13 +343,13 @@ Fungsi reset:
 
 ---
 
-# 3️⃣ registrant_list_page.dart (Daftar Peserta)
+## 3️⃣ registrant_list_page.dart (Daftar Peserta)
 
 Halaman ini menampilkan **seluruh peserta yang sudah terdaftar**.
 
 ---
 
-## State Search
+### State Search
 
 ```dart
 String search = "";
@@ -359,7 +359,7 @@ Digunakan untuk **fitur pencarian peserta**.
 
 ---
 
-## Filter Data
+### Filter Data
 
 ```dart
 final data = provider.registrants.where((r) {
@@ -375,7 +375,7 @@ filter peserta berdasarkan nama
 
 ---
 
-## Search Field
+### Search Field
 
 ```dart
 TextField
@@ -393,7 +393,7 @@ Daftar peserta akan **terfilter secara realtime**.
 
 ---
 
-## ListView.builder
+### ListView.builder
 
 Digunakan untuk menampilkan daftar peserta.
 
@@ -409,7 +409,7 @@ Setiap item menampilkan:
 
 ---
 
-## Avatar
+### Avatar
 
 ```dart
 CircleAvatar(
@@ -421,7 +421,7 @@ Avatar otomatis menggunakan **huruf pertama nama peserta**.
 
 ---
 
-## Delete Peserta
+### Delete Peserta
 
 ```dart
 provider.removeRegistrant(registrant.id);
@@ -437,7 +437,7 @@ Snackbar: "Nama peserta dihapus"
 
 ---
 
-## Navigasi ke Detail
+### Navigasi ke Detail
 
 ```dart
 Navigator.pushNamed(
@@ -451,13 +451,13 @@ Mengirim **ID peserta** ke halaman detail.
 
 ---
 
-# 4️⃣ registrant_detail_page.dart (Detail Peserta)
+## 4️⃣ registrant_detail_page.dart (Detail Peserta)
 
 Halaman ini menampilkan **informasi lengkap peserta**.
 
 ---
 
-## Mengambil Argument Route
+### Mengambil Argument Route
 
 ```dart
 final id = ModalRoute.of(context)!.settings.arguments as String;
@@ -467,7 +467,7 @@ Mengambil **ID peserta dari halaman sebelumnya**.
 
 ---
 
-## Mengambil Data dari Provider
+### Mengambil Data dari Provider
 
 ```dart
 context.read<RegistrationProvider>().getById(id);
@@ -477,7 +477,7 @@ Mengambil data peserta berdasarkan ID.
 
 ---
 
-## Tampilan UI
+### Tampilan UI
 
 Data ditampilkan menggunakan:
 
@@ -496,7 +496,7 @@ Informasi yang ditampilkan:
 
 ---
 
-# 5️⃣ registrant_model.dart (Model Data)
+## 5️⃣ registrant_model.dart (Model Data)
 
 File ini mendefinisikan **struktur data peserta**.
 
@@ -514,7 +514,7 @@ registeredAt
 
 ---
 
-## Getter Age
+### Getter Age
 
 ```dart
 int get age
@@ -524,7 +524,7 @@ Digunakan untuk menghitung umur berdasarkan tanggal lahir.
 
 ---
 
-## Format Tanggal
+### Format Tanggal
 
 ```dart
 formattedDateOfBirth
@@ -535,7 +535,7 @@ Digunakan untuk **mengubah format tanggal menjadi string**.
 
 ---
 
-# 6️⃣ registration_provider.dart (State Management)
+## 6️⃣ registration_provider.dart (State Management)
 
 Provider ini bertugas **mengelola data peserta**.
 
@@ -547,7 +547,7 @@ RegistrationProvider extends ChangeNotifier
 
 ---
 
-## List Penyimpanan Peserta
+### List Penyimpanan Peserta
 
 ```dart
 final List<Registrant> _registrants = [];
@@ -557,7 +557,7 @@ Data peserta disimpan dalam list.
 
 ---
 
-## Getter Data
+### Getter Data
 
 ```dart
 List<Registrant> get registrants
@@ -567,7 +567,7 @@ Digunakan untuk mengambil semua peserta.
 
 ---
 
-## Jumlah Peserta
+### Jumlah Peserta
 
 ```dart
 int get count => _registrants.length;
@@ -577,7 +577,7 @@ Digunakan untuk menampilkan jumlah peserta di AppBar.
 
 ---
 
-## Tambah Peserta
+### Tambah Peserta
 
 ```dart
 void addRegistrant(Registrant registrant)
@@ -595,7 +595,7 @@ UI akan **update otomatis**.
 
 ---
 
-## Hapus Peserta
+### Hapus Peserta
 
 ```dart
 void removeRegistrant(String id)
@@ -605,7 +605,7 @@ Menghapus peserta berdasarkan ID.
 
 ---
 
-## Ambil Peserta Berdasarkan ID
+### Ambil Peserta Berdasarkan ID
 
 ```dart
 Registrant? getById(String id)
@@ -615,7 +615,7 @@ Digunakan untuk halaman **detail peserta**.
 
 ---
 
-## Validasi Email
+### Validasi Email
 
 ```dart
 bool isEmailRegistered(String email)
@@ -625,7 +625,7 @@ Digunakan untuk mengecek apakah email sudah pernah terdaftar.
 
 ---
 
-## Sort Peserta
+### Sort Peserta
 
 ```dart
 void sortByName()
@@ -635,9 +635,9 @@ Mengurutkan peserta berdasarkan **nama (alphabet)**.
 
 ---
 
-# :framed_picture:	Tampilan Aplikasi
+## :framed_picture:	Tampilan Aplikasi
 
-## Light Mode
+### Light Mode
 <img width="309" height="673" alt="image" src="https://github.com/user-attachments/assets/e90a08ec-023a-4b82-9590-f087dc2d8b74" />
 <img width="308" height="671" alt="image" src="https://github.com/user-attachments/assets/052ecc72-4f0b-4795-aef2-eb78746a1f7b" />
 <img width="308" height="670" alt="image" src="https://github.com/user-attachments/assets/4e53d5a5-fb79-49c7-ad78-3b3011ff3e53" />
@@ -645,8 +645,7 @@ Mengurutkan peserta berdasarkan **nama (alphabet)**.
 <img width="312" height="670" alt="image" src="https://github.com/user-attachments/assets/8fb59c7f-8c41-46bc-95ef-51c564aba1f7" />
 <img width="313" height="671" alt="image" src="https://github.com/user-attachments/assets/8ff85d4f-d11e-4d7e-a950-1e08f7a2d909" />
 
-
-## Dark Mode
+### Dark Mode
 <img width="311" height="665" alt="image" src="https://github.com/user-attachments/assets/28cc6c80-5431-4a39-b14d-5c409cb1bf49" />
 <img width="314" height="676" alt="image" src="https://github.com/user-attachments/assets/c3c8b145-6b2b-45c7-8bc5-697b3602db92" />
 <img width="312" height="669" alt="image" src="https://github.com/user-attachments/assets/79bc1481-1826-471d-936d-25c4fdf8c6ab" />
