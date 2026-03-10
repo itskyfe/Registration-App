@@ -1,107 +1,100 @@
-// lib/pages/registrant_list_page.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/registration_provider.dart';
 
-class RegistrantListPage extends StatelessWidget {
+class RegistrantListPage extends StatefulWidget {
   const RegistrantListPage({super.key});
 
   @override
+  State<RegistrantListPage> createState() => _RegistrantListPageState();
+}
+
+class _RegistrantListPageState extends State<RegistrantListPage> {
+
+  String search = "";
+
+  @override
   Widget build(BuildContext context) {
+
+    final provider = context.watch<RegistrationProvider>();
+
+    final data = provider.registrants.where((r) {
+      return r.name.toLowerCase().contains(search.toLowerCase());
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
-        title: Consumer<RegistrationProvider>(
-          builder: (context, provider, _) {
-            return Text('Daftar Peserta (${provider.count})');
-          },
-        ),
+        title: Text("Peserta (${provider.count})"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.sort_by_alpha),
+            onPressed: () {
+              provider.sortByName();
+            },
+          )
+        ],
       ),
-      body: Consumer<RegistrationProvider>(
-        builder: (context, provider, child) {
-          if (provider.registrants.isEmpty) {
-            return const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.people_outline, size: 80, color: Colors.grey),
-                  SizedBox(height: 16),
-                  Text(
-                    'Belum ada pendaftar',
-                    style: TextStyle(fontSize: 18, color: Colors.grey),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Daftar sekarang di halaman registrasi!',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
-            );
-          }
+      body: Column(
+        children: [
 
-          return ListView.builder(
+          Padding(
             padding: const EdgeInsets.all(8),
-            itemCount: provider.registrants.length,
-            itemBuilder: (context, index) {
-              final registrant = provider.registrants[index];
-              return Card(
-                child: ListTile(
-                  leading: CircleAvatar(
-                    child: Text(registrant.name[0].toUpperCase()),
-                  ),
-                  title: Text(
-                    registrant.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    '${registrant.programStudi} • ${registrant.email}',
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => AlertDialog(
-                          title: const Text('Hapus Pendaftar?'),
-                          content: Text(
-                            'Yakin hapus ${registrant.name}?',
+            child: TextField(
+              decoration: const InputDecoration(
+                hintText: "Search peserta...",
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (v){
+                setState(() {
+                  search = v;
+                });
+              },
+            ),
+          ),
+
+          Expanded(
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context,index){
+
+                final registrant = data[index];
+
+                return Card(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Text(registrant.name[0]),
+                    ),
+                    title: Text(registrant.name),
+                    subtitle: Text(registrant.email),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete,color: Colors.red),
+                      onPressed: (){
+
+                        provider.removeRegistrant(registrant.id);
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("${registrant.name} dihapus"),
                           ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(ctx),
-                              child: const Text('Batal'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                provider.removeRegistrant(registrant.id);
-                                Navigator.pop(ctx);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                              ),
-                              child: const Text('Hapus'),
-                            ),
-                          ],
-                        ),
+                        );
+
+                      },
+                    ),
+                    onTap: (){
+                      Navigator.pushNamed(
+                        context,
+                        "/detail",
+                        arguments: registrant.id,
                       );
                     },
                   ),
-                  onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/detail',
-                      arguments: registrant.id,
-                    );
-                  },
-                ),
-              );
-            },
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pop(context),
-        child: const Icon(Icons.add),
+                );
+
+              },
+            ),
+          )
+        ],
       ),
     );
   }

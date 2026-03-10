@@ -1,4 +1,3 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/registration_provider.dart';
@@ -20,18 +19,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Registrasi Event',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-      ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const RegistrationPage(),
-        '/list': (context) => const RegistrantListPage(),
-        '/detail': (context) => const RegistrantDetailPage(),
+    return Consumer<RegistrationProvider>(
+      builder: (context, provider, _) {
+        return MaterialApp(
+          title: 'Registrasi Event',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(seedColor: provider.themeColor),
+          ),
+          darkTheme: ThemeData.dark(),
+          themeMode: provider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const RegistrationPage(),
+            '/list': (context) => const RegistrantListPage(),
+            '/detail': (context) => const RegistrantDetailPage(),
+          },
+        );
       },
     );
   }

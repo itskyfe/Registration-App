@@ -1,39 +1,55 @@
-// lib/providers/registration_provider.dart
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import '../models/registrant_model.dart';
 
 class RegistrationProvider extends ChangeNotifier {
+
   final List<Registrant> _registrants = [];
 
-  // Getters
+  bool _isDarkMode = false;
+  MaterialColor _themeColor = Colors.indigo;
+
+  bool get isDarkMode => _isDarkMode;
+  MaterialColor get themeColor => _themeColor;
+
   List<Registrant> get registrants => List.unmodifiable(_registrants);
   int get count => _registrants.length;
 
-  // Add registrant
+  void toggleTheme() {
+    _isDarkMode = !_isDarkMode;
+    notifyListeners();
+  }
+
+  void changeThemeColor(MaterialColor color) {
+    _themeColor = color;
+    notifyListeners();
+  }
+
   void addRegistrant(Registrant registrant) {
     _registrants.add(registrant);
     notifyListeners();
   }
 
-  // Remove registrant
   void removeRegistrant(String id) {
     _registrants.removeWhere((r) => r.id == id);
     notifyListeners();
   }
 
-  // Get by ID
   Registrant? getById(String id) {
     try {
       return _registrants.firstWhere((r) => r.id == id);
-    } catch (e) {
+    } catch (_) {
       return null;
     }
   }
 
-  // Check if email already registered
   bool isEmailRegistered(String email) {
     return _registrants.any(
       (r) => r.email.toLowerCase() == email.toLowerCase(),
     );
+  }
+
+  void sortByName() {
+    _registrants.sort((a, b) => a.name.compareTo(b.name));
+    notifyListeners();
   }
 }
