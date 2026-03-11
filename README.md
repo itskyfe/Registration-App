@@ -1,3 +1,5 @@
+Muhammad Rizky Febrianto | 2409116045
+
 # 📱 Flutter Event Registration App
 
 Aplikasi **Event Registration** adalah aplikasi Flutter sederhana yang digunakan untuk melakukan pendaftaran peserta event.
